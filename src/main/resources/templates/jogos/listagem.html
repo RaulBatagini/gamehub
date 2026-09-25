@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Jogos</title>
+</head>
+<body>
+
+<h1>Jogos cadastrados</h1>
+
+<div th:each="jogo : ${lista}">
+
+    <p>Nome: <span th:text="${jogo.nome}"></span></p>
+    <p>Gênero: <span th:text="${jogo.genero}"></span></p>
+    <p>Ano: <span th:text="${jogo.ano}"></span></p>
+    <p>Preço: <span th:text="${jogo.preco}"></span></p>
+
+    <hr>
+
+</div>
+
+</body>
+</html>

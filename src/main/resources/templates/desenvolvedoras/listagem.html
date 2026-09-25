@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Desenvolvedoras</title>
+</head>
+<body>
+
+<h1>Desenvolvedoras cadastradas</h1>
+
+<!--Aqui o Thymeleaf pega a "lista" que foi colocada no Model.-->
+<div th:each="desenvolvedora : ${lista}">
+
+    <p>Nome: <span th:text="${desenvolvedora.nome}"></span></p>
+    <p>País: <span th:text="${desenvolvedora.pais}"></span></p>
+
+    <hr>
+
+</div>
+
+</body>
+</html>

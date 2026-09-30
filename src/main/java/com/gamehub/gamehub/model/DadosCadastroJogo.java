@@ -6,6 +6,7 @@ public record DadosCadastroJogo(
         String genero,
         Integer ano,
         Double preco,
-        String desenvolvedoraNome
+        String desenvolvedoraNome,
+        Long desenvolvedoraId
 ) {
 }

@@ -62,14 +62,12 @@
 
     <label>Desenvolvedora:</label>
 
-    <select name="desenvolvedoraId" required>
-
+    <select name="desenvolvedoraNome" required>
         <option th:each="desenvolvedora : ${desenvolvedoras}"
-                th:value="${desenvolvedora.id}"
+                th:value="${desenvolvedora.nome}"
                 th:text="${desenvolvedora.nome}"
                 th:selected="${jogo.desenvolvedora != null and jogo.desenvolvedora.id == desenvolvedora.id}">
         </option>
-
     </select>
 
     <br><br>

@@ -99,7 +99,7 @@ public class JogoController {
 
         Desenvolvedora desenvolvedora =
                 desenvolvedoraRepository
-                        .findByNome(dados.desenvolvedoraNome())
+                        .findById(dados.desenvolvedoraId())
                         .orElseThrow();
 
         jogo.setNome(dados.nome());

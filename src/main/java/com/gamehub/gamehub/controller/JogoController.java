@@ -6,59 +6,130 @@ import com.gamehub.gamehub.model.Jogo;
 import com.gamehub.gamehub.repository.DesenvolvedoraRepository;
 import com.gamehub.gamehub.repository.JogoRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.ui.Model;
-
-
 
 @Controller
 @RequestMapping("/jogos")
 public class JogoController {
 
-    //Repository responsavel por acessar o banco de dados dos jogos
     private final JogoRepository repository;
-    // Repository responsável por acessar as desenvolvedoras
     private final DesenvolvedoraRepository desenvolvedoraRepository;
 
-    //Construtor que recebe JogoRepository
-    // O Spring fornece automaticamente esse Repository
-    public JogoController(JogoRepository Repository, DesenvolvedoraRepository desenvolvedoraRepository ) {
-        this.repository = Repository;
+    public JogoController(
+            JogoRepository repository,
+            DesenvolvedoraRepository desenvolvedoraRepository) {
+
+        this.repository = repository;
         this.desenvolvedoraRepository = desenvolvedoraRepository;
     }
 
-    //O this.repository é o atributo do controller(linha 15) vai receber o
-    // repository que é uma instancia do JogoRepository nesse momento que controller tem acesso ao repository
-
-    //Metodo POST que cadastra o jogo no banco de dados
+    // CADASTRAR
     @PostMapping
-    public String CadastrarJogo(DadosCadastroJogo dados) {
+    public String cadastrarJogo(DadosCadastroJogo dados) {
 
-        // Busca no banco a desenvolvedora escolhida pelo usuário
-        Desenvolvedora desenvolvedora = desenvolvedoraRepository.findById(dados.desenvolvedoraId()).orElseThrow();
+        Desenvolvedora desenvolvedora =
+                desenvolvedoraRepository
+                        .findByNome(dados.desenvolvedoraNome())
+                        .orElseThrow();
 
-        // Cria o Jogo usando os dados do formulário e a desenvolvedora encontrada
         Jogo jogo = new Jogo(dados, desenvolvedora);
 
-        //Salva o jogo no banco de dados
         repository.save(jogo);
 
-        //Depois de salvar retorna para a listagem dos jogos
         return "redirect:/jogos/listagem";
-
     }
 
+    // FORMULÁRIO DE CADASTRO
     @GetMapping("/formulario")
-    public String carregarFormulario() {
+    public String carregarFormulario(Model model) {
+
+        model.addAttribute(
+                "desenvolvedoras",
+                desenvolvedoraRepository.findAll()
+        );
+
         return "jogos/formulario";
     }
 
+    // LISTAGEM
     @GetMapping("/listagem")
     public String carregaListagem(Model model) {
 
-        model.addAttribute("lista", repository.findAll());
+        model.addAttribute(
+                "lista",
+                repository.findAll()
+        );
+
+        return "jogos/listagem";
+    }
+
+    // FORMULÁRIO DE EDIÇÃO
+    @GetMapping("/editar/{id}")
+    public String carregarFormularioEdicao(
+            @PathVariable Long id,
+            Model model) {
+
+        Jogo jogo = repository
+                .findById(id)
+                .orElseThrow();
+
+        model.addAttribute("jogo", jogo);
+
+        model.addAttribute(
+                "desenvolvedoras",
+                desenvolvedoraRepository.findAll()
+        );
+
+        return "jogos/editar";
+    }
+
+    // ATUALIZAR
+    @PostMapping("/editar/{id}")
+    public String editarJogo(
+            @PathVariable Long id,
+            DadosCadastroJogo dados) {
+
+        Jogo jogo = repository
+                .findById(id)
+                .orElseThrow();
+
+        Desenvolvedora desenvolvedora =
+                desenvolvedoraRepository
+                        .findByNome(dados.desenvolvedoraNome())
+                        .orElseThrow();
+
+        jogo.setNome(dados.nome());
+        jogo.setGenero(dados.genero());
+        jogo.setAno(dados.ano());
+        jogo.setPreco(dados.preco());
+        jogo.setDesenvolvedora(desenvolvedora);
+
+        repository.save(jogo);
+
+        return "redirect:/jogos/listagem";
+    }
+
+    // EXCLUIR
+    @GetMapping("/excluir/{id}")
+    public String excluirJogo(@PathVariable Long id) {
+
+        repository.deleteById(id);
+
+        return "redirect:/jogos/listagem";
+    }
+
+    // PESQUISA - DERIVED QUERY
+    @GetMapping("/buscar")
+    public String buscar(String nome, Model model) {
+
+        model.addAttribute(
+                "lista",
+                repository.findByNomeContainingIgnoreCase(nome)
+        );
 
         return "jogos/listagem";
     }

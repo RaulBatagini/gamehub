@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Cadastrar Desenvolvedora</title>
+    <title>Editar Desenvolvedora</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="icon" type="image/svg+xml" th:href="@{/img/gamehub.svg}">
 </head>
+
 <body>
 
 <nav class="menu-topo">
@@ -17,25 +19,42 @@
     <a href="/desenvolvedoras/listagem">Desenvolvedoras</a>
 </nav>
 
-<h1>Cadastrar Desenvolvedora</h1>
+<h1>Editar Desenvolvedora</h1>
 
-<form action="/desenvolvedoras" method="post">
+<form
+        th:action="@{/desenvolvedoras/editar/{id}(id=${desenvolvedora.id})}"
+        method="post">
 
     <label>Nome:</label>
-    <input type="text" name="nome">
+
+    <input
+            type="text"
+            name="nome"
+            th:value="${desenvolvedora.nome}"
+            required>
+
     <br><br>
 
     <label>País:</label>
-    <input type="text" name="pais">
+
+    <input
+            type="text"
+            name="pais"
+            th:value="${desenvolvedora.pais}"
+            required>
+
     <br><br>
 
-    <button type="submit">Cadastrar</button>
+    <button type="submit">
+        Salvar alterações
+    </button>
 
 </form>
 
 <br>
+
 <a href="/desenvolvedoras/listagem">
-    Ver desenvolvedoras
+    Voltar para listagem
 </a>
 
 </body>

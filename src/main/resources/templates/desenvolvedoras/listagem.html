@@ -1,20 +1,47 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Desenvolvedoras</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" type="image/svg+xml" th:href="@{/img/gamehub.svg}">
 </head>
 <body>
 
+<nav class="menu-topo">
+    <a href="/" class="logo">
+        <img th:src="@{/img/gamehub.svg}" alt="" width="28" height="28">
+        GameHub
+    </a>
+    <a href="/jogos/listagem">Jogos</a>
+    <a href="/desenvolvedoras/listagem">Desenvolvedoras</a>
+</nav>
+
 <h1>Desenvolvedoras cadastradas</h1>
 
+<a href="/desenvolvedoras/formulario">
+    Cadastrar nova desenvolvedora
+</a>
+
+<hr>
+
 <!--Aqui o Thymeleaf pega a "lista" que foi colocada no Model.-->
-<div th:each="desenvolvedora : ${lista}">
+<div class="card" th:each="desenvolvedora : ${lista}">
 
     <p>Nome: <span th:text="${desenvolvedora.nome}"></span></p>
     <p>País: <span th:text="${desenvolvedora.pais}"></span></p>
 
-    <hr>
+    <a th:href="@{/desenvolvedoras/editar/{id}(id=${desenvolvedora.id})}">
+        Editar
+    </a>
+
+    <a
+            th:href="@{/desenvolvedoras/excluir/{id}(id=${desenvolvedora.id})}"
+            onclick="return confirm('Tem certeza que deseja excluir esta desenvolvedora?');">
+
+        Excluir
+
+    </a>
 
 </div>
 

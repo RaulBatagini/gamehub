@@ -1,0 +1,353 @@
+/* ==========================================================================
+   GameHub - folha de estilos única do site
+   Local: src/main/resources/static/css/style.css
+
+   Tema escuro em índigo com destaque violeta.
+   Todas as páginas (templates Thymeleaf) carregam este arquivo com:
+   <link rel="stylesheet" th:href="@{/css/style.css}">
+
+   ÍNDICE
+   1. Fonte e variáveis (cores e fontes)
+   2. Base (reset e corpo da página)
+   3. Tipografia (títulos, textos e links)
+   4. Formulários
+   5. Botões
+   6. Cards das listagens
+   7. Responsivo e acessibilidade
+   8. Navegação no topo e logo
+
+   COMO USAR NO HTML
+   - Listagens: coloque class="card" no <div> de cada item.
+   - Barra de topo: <nav class="menu-topo"> com o link <a class="logo">.
+   - Título da página inicial: <h1 class="titulo-logo">.
+   ========================================================================== */
+
+
+/* ---------- 1. Fonte e variáveis ---------- */
+
+/* Carrega a fonte Rajdhani (usada nos títulos). Precisa de internet;
+   sem ela, o navegador usa a fonte de reserva definida em --display. */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap');
+
+/* Variáveis de cor e fonte. Para mudar o visual do site,
+   basta alterar os valores aqui: todo o resto usa var(--nome). */
+:root {
+    --bg: #14121f;            /* fundo da página */
+    --surface: #1f1c33;       /* fundo de cards e formulários */
+    --field: #0f0d1a;         /* fundo dos campos de digitação */
+    --line: #34305a;          /* bordas e linhas divisórias */
+    --text: #ece9f7;          /* texto principal */
+    --muted: #a29dc4;         /* texto secundário (rótulos, detalhes) */
+    --accent: #6b4bf0;        /* cor de destaque (botões, barra do card) */
+    --accent-strong: #5637d9; /* destaque mais escuro, usado ao passar o mouse */
+    --accent-soft: #a996ff;   /* destaque claro: links e foco do teclado */
+    --danger: #ff6b81;        /* ações perigosas (Excluir) */
+    --display: 'Rajdhani', 'Trebuchet MS', system-ui, sans-serif; /* títulos */
+    --body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; /* textos */
+}
+
+
+/* ---------- 2. Base ---------- */
+
+/* Faz largura e altura já incluírem padding e borda,
+   o que evita elementos "estourando" o tamanho esperado. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Corpo da página: coluna central de até 920px, com fundo e texto padrão. */
+body {
+    max-width: 920px;
+    margin: 0 auto; /* centraliza na tela */
+    padding: 2.5rem 1.25rem 4rem;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+
+/* ---------- 3. Tipografia ---------- */
+
+/* Título principal da página */
+h1 {
+    margin: 0 0 0.25rem;
+    font-family: var(--display);
+    font-size: 2.6rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+/* Subtítulos (ex.: "Menu", "Pesquisar jogo") */
+h2 {
+    margin: 1.5rem 0 0.5rem;
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Parágrafos com pouco espaço entre si */
+p {
+    margin: 0.2rem 0;
+}
+
+/* Linha divisória horizontal (<hr>) */
+hr {
+    margin: 1.5rem 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+}
+
+/* Links: cor clara, sem sublinhado; sublinham ao passar o mouse */
+a {
+    color: var(--accent-soft);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Contorno visível quando o item é selecionado pelo teclado (Tab).
+   Importante para acessibilidade; não remover. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--accent-soft);
+    outline-offset: 2px;
+}
+
+
+/* ---------- 4. Formulários ---------- */
+
+/* Cada formulário vira um painel; os campos ficam empilhados (grid). */
+form {
+    display: grid;
+    gap: 0.35rem;
+    margin: 1.25rem 0;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+}
+
+/* Os HTMLs usam <br> entre os campos; escondemos porque o
+   espaçamento já vem do "gap" do grid acima. */
+form br {
+    display: none;
+}
+
+/* Rótulo acima de cada campo */
+label {
+    margin-top: 0.6rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Campos de texto/número e listas de seleção */
+input,
+select {
+    width: 100%;
+    padding: 0.65rem 0.8rem;
+    background: var(--field);
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font: inherit; /* usa a mesma fonte do resto da página */
+}
+
+/* Texto de exemplo dentro do campo vazio */
+input::placeholder {
+    color: var(--muted);
+}
+
+
+/* ---------- 5. Botões ---------- */
+
+/* Botão padrão (violeta) */
+button {
+    padding: 0.65rem 1.25rem;
+    background: var(--accent);
+    color: #fff;
+    border: 0;
+    border-radius: 8px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+/* Escurece ao passar o mouse */
+button:hover {
+    background: var(--accent-strong);
+}
+
+/* Botão de enviar dentro de um formulário: alinhado à esquerda,
+   com espaço acima (em vez de esticar na largura toda). */
+form button {
+    justify-self: start;
+    margin-top: 1rem;
+}
+
+/* Formulário de pesquisa (method="get"): campo e botão na mesma linha. */
+form[method="get"] {
+    display: flex;
+    gap: 0.6rem;
+    padding: 1rem;
+}
+
+/* O campo ocupa todo o espaço livre; o botão fica com o tamanho dele. */
+form[method="get"] input {
+    flex: 1;
+}
+
+form[method="get"] button {
+    margin-top: 0;
+}
+
+/* Botões grandes do menu inicial (index.html).
+   Seleciona botões que estão dentro de um link: <a><button>. */
+a > button {
+    margin: 0.5rem 0.75rem 0.5rem 0;
+    padding: 0.9rem 1.75rem;
+    font-family: var(--display);
+    font-size: 1.25rem;
+}
+
+/* Sem sublinhado no link que envolve o botão */
+a:has(> button):hover {
+    text-decoration: none;
+}
+
+
+/* ---------- 6. Cards das listagens ---------- */
+/* Usados nas páginas de listagem: coloque class="card" no <div> de cada item. */
+
+/* Caixa do item, com barra violeta à esquerda */
+.card {
+    margin: 1rem 0;
+    padding: 1rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: 10px;
+}
+
+/* Esconde o <hr> que sobrou dentro do card (o card já separa os itens) */
+.card hr {
+    display: none;
+}
+
+/* Textos do card em cor secundária... */
+.card p {
+    color: var(--muted);
+}
+
+/* ...e os valores (nome, ano etc.) em cor principal, para destacar */
+.card strong,
+.card span {
+    color: var(--text);
+}
+
+/* Links Editar e Excluir dentro do card viram botões com borda */
+.card a {
+    display: inline-block;
+    margin: 0.9rem 0.5rem 0 0;
+    padding: 0.35rem 0.9rem;
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.15s;
+}
+
+.card a:hover {
+    background: var(--line);
+    text-decoration: none;
+}
+
+/* Todo link cujo endereço contém "excluir" fica vermelho.
+   Não precisa de classe extra no HTML. */
+.card a[href*="excluir"] {
+    color: var(--danger);
+    border-color: #5a2a3a;
+}
+
+.card a[href*="excluir"]:hover {
+    background: var(--danger);
+    color: #fff;
+}
+
+
+/* ---------- 7. Responsivo e acessibilidade ---------- */
+
+/* Telas pequenas (celular): menos margem, título menor,
+   pesquisa em coluna e botões do menu na largura toda. */
+@media (max-width: 520px) {
+    body {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    form[method="get"] {
+        flex-direction: column;
+    }
+
+    a > button {
+        width: 100%;
+        margin-right: 0;
+    }
+}
+
+/* Respeita quem desativa animações no sistema operacional */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}
+
+
+/* ---------- 8. Navegação no topo e logo ---------- */
+
+/* Barra de navegação no topo das páginas: <nav class="menu-topo"> */
+.menu-topo {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+    font-weight: 600;
+}
+
+/* Logo (ícone + nome) na barra: <a class="logo">.
+   margin-right: auto empurra os demais links para a direita. */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: auto;
+    color: var(--text);
+    font-family: var(--display);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.logo:hover {
+    text-decoration: none;
+}
+
+/* Título da página inicial com ícone ao lado: <h1 class="titulo-logo"> */
+.titulo-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}

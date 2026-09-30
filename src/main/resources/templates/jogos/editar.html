@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Jogo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" type="image/svg+xml" th:href="@{/img/gamehub.svg}">
+</head>
+
+<body>
+
+<nav class="menu-topo">
+    <a href="/" class="logo">
+        <img th:src="@{/img/gamehub.svg}" alt="" width="28" height="28">
+        GameHub
+    </a>
+    <a href="/jogos/listagem">Jogos</a>
+    <a href="/desenvolvedoras/listagem">Desenvolvedoras</a>
+</nav>
+
+<h1>Editar Jogo</h1>
+
+<form th:action="@{/jogos/editar/{id}(id=${jogo.id})}" method="post">
+
+    <label>Nome:</label>
+
+    <input type="text"
+           name="nome"
+           th:value="${jogo.nome}"
+           required>
+
+    <br><br>
+
+    <label>Gênero:</label>
+
+    <input type="text"
+           name="genero"
+           th:value="${jogo.genero}"
+           required>
+
+    <br><br>
+
+    <label>Ano:</label>
+
+    <input type="number"
+           name="ano"
+           th:value="${jogo.ano}"
+           required>
+
+    <br><br>
+
+    <label>Preço:</label>
+
+    <input type="number"
+           step="0.01"
+           name="preco"
+           th:value="${jogo.preco}"
+           required>
+
+    <br><br>
+
+    <label>Desenvolvedora:</label>
+
+    <select name="desenvolvedoraId" required>
+
+        <option th:each="desenvolvedora : ${desenvolvedoras}"
+                th:value="${desenvolvedora.id}"
+                th:text="${desenvolvedora.nome}"
+                th:selected="${jogo.desenvolvedora != null and jogo.desenvolvedora.id == desenvolvedora.id}">
+        </option>
+
+    </select>
+
+    <br><br>
+
+    <button type="submit">Salvar alterações</button>
+
+</form>
+
+<br>
+
+<a href="/jogos/listagem">
+    Voltar para listagem
+</a>
+
+</body>
+
+</html>

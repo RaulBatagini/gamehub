@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 
 @Entity // Indica que essa classe representa uma entidade/tabela no banco
 public class Jogo {
-    @Id  // Indica que o atributo id é a chave primária
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Faz o banco gerar o ID automaticamente
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nome;
@@ -13,30 +14,24 @@ public class Jogo {
     private Integer ano;
     private Double preco;
 
-    //Muitos objts do tipo jogo, relacionado com um do tipo desenvolvedora
+    // Muitos jogos podem pertencer a uma desenvolvedora
     @ManyToOne
     private Desenvolvedora desenvolvedora;
 
-    //O construtor vazio é necessário porque o JPA utiliza um construtor sem argumentos
-    // para criar as instâncias da entidade.
+    // Construtor vazio necessário para o JPA
     public Jogo() {}
 
-    // Construtor utilizado para criar um jogo
-    // a partir dos dados recebidos do formulario (vindos do Record DadosCadastroJogo)
+    // Construtor utilizado para cadastrar um jogo
     public Jogo(DadosCadastroJogo dados, Desenvolvedora desenvolvedora) {
+
         this.nome = dados.nome();
         this.genero = dados.genero();
         this.ano = dados.ano();
         this.preco = dados.preco();
-
-        // Construtor que recebe os dados do formulário
-        // e a desenvolvedora associada ao jogo.
         this.desenvolvedora = desenvolvedora;
     }
 
-    public String getGenero() {
-        return genero;
-    }
+// GETTERS
 
     public Long getId() {
         return id;
@@ -44,6 +39,10 @@ public class Jogo {
 
     public String getNome() {
         return nome;
+    }
+
+    public String getGenero() {
+        return genero;
     }
 
     public Integer getAno() {
@@ -54,4 +53,30 @@ public class Jogo {
         return preco;
     }
 
+    public Desenvolvedora getDesenvolvedora() {
+        return desenvolvedora;
+    }
+
+// SETTERS
+// Usados para alterar os dados no UPDATE
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public void setAno(Integer ano) {
+        this.ano = ano;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
+    public void setDesenvolvedora(Desenvolvedora desenvolvedora) {
+        this.desenvolvedora = desenvolvedora;
+    }
 }

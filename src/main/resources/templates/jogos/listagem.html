@@ -1,21 +1,93 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Jogos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="icon" type="image/svg+xml" th:href="@{/img/gamehub.svg}">
 </head>
+
 <body>
+
+<nav class="menu-topo">
+    <a href="/" class="logo">
+        <img th:src="@{/img/gamehub.svg}" alt="" width="28" height="28">
+        GameHub
+    </a>
+    <a href="/jogos/listagem">Jogos</a>
+    <a href="/desenvolvedoras/listagem">Desenvolvedoras</a>
+</nav>
 
 <h1>Jogos cadastrados</h1>
 
-<div th:each="jogo : ${lista}">
+<h2>Pesquisar jogo</h2>
 
-    <p>Nome: <span th:text="${jogo.nome}"></span></p>
-    <p>Gênero: <span th:text="${jogo.genero}"></span></p>
-    <p>Ano: <span th:text="${jogo.ano}"></span></p>
-    <p>Preço: <span th:text="${jogo.preco}"></span></p>
+<form action="/jogos/buscar" method="get">
 
-    <hr>
+    <input
+            type="text"
+            name="nome"
+            placeholder="Digite o nome do jogo">
+
+    <button type="submit">
+        Pesquisar
+    </button>
+
+</form>
+
+<br>
+
+<a href="/jogos/formulario">
+    Cadastrar novo jogo
+</a>
+
+<hr>
+
+<div class="card" th:each="jogo : ${lista}">
+
+    <p>
+        <strong>ID:</strong>
+        <span th:text="${jogo.id}"></span>
+    </p>
+
+    <p>
+        <strong>Nome:</strong>
+        <span th:text="${jogo.nome}"></span>
+    </p>
+
+    <p>
+        <strong>Gênero:</strong>
+        <span th:text="${jogo.genero}"></span>
+    </p>
+
+    <p>
+        <strong>Ano:</strong>
+        <span th:text="${jogo.ano}"></span>
+    </p>
+
+    <p>
+        <strong>Preço:</strong>
+        R$
+        <span th:text="${jogo.preco}"></span>
+    </p>
+
+    <p>
+        <strong>Desenvolvedora:</strong>
+        <span th:text="${jogo.desenvolvedora.nome}"></span>
+    </p>
+
+    <a th:href="@{/jogos/editar/{id}(id=${jogo.id})}">
+        Editar
+    </a>
+
+    <a
+            th:href="@{/jogos/excluir/{id}(id=${jogo.id})}"
+            onclick="return confirm('Tem certeza que deseja excluir este jogo?');">
+
+        Excluir
+
+    </a>
 
 </div>
 
